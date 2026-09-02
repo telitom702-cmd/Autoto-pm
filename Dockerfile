@@ -1,23 +1,12 @@
-# Don't Remove Credit @VJ_Bots
-# Subscribe YouTube Channel For Amazing Bot @Tech_VJ
-# Ask Doubt on telegram @KingVJ01
+FROM python:3.8-slim-buster
 
-FROM python:3.10.8-slim-bookworm
+RUN apt update && apt upgrade -y
+RUN apt install git -y
+COPY requirements.txt /requirements.txt
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends git ffmpeg && \
-    rm -rf /var/lib/apt/lists/*
-
-WORKDIR /Autoto-pm
-
-COPY requirements.txt .
-
-RUN python -m pip install --upgrade pip setuptools wheel && \
-    python -m pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-CMD ["python", "bot.py"]
+RUN cd /
+RUN pip3 install -U pip && pip3 install -U -r requirements.txt
+RUN mkdir /AutoFilterAdvance
+WORKDIR /AutoFilterAdvance
+COPY start.sh /start.sh
+CMD ["/bin/bash", "/start.sh"]
